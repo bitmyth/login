@@ -1,0 +1,33 @@
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: api
+  labels:
+    app: api
+spec:
+  selector:
+    matchLabels:
+      app: api
+      tier: backend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: api
+        tier: backend
+    spec:
+      containers:
+        - image: bitmyth/accounts:v1.1.7
+          name: api
+          ports:
+            - containerPort: 80
+              name: web
+          volumeMounts:
+            - name: plain-config
+              mountPath: "/config"
+              readOnly: true
+      volumes:
+        - name: plain-config
+          configMap:
+            name: plain-config
