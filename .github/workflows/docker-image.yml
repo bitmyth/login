@@ -57,7 +57,7 @@ jobs:
           file: ./Dockerfile.multi
           builder: ${{ steps.buildx.outputs.name }}
           push: true
-          tags: bitmyth/accounts:${{ steps.tagName.outputs.tag }}
+          tags: bitmyth/login:${{ steps.tagName.outputs.tag }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
 
