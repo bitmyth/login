@@ -15,7 +15,9 @@ func Login(context *gin.Context) *responses.Response {
 
     userRepo := user.Repo
 
-    _ = context.BindJSON(&u)
+    if err := context.ShouldBind(&u);err!=nil{
+        return responses.Json(err.Error())
+    }
 
     credential.Name = u.Name
     credential.Password = u.Password
@@ -36,7 +38,6 @@ func Login(context *gin.Context) *responses.Response {
             Message: "Wrong password",
             Errors:  map[string]string{"password": "wrong password"},
         })
-        return responses.Json("wrong password")
     }
 
     jwt := token.Jwt.GenerateToken(u.ID, []string{})
